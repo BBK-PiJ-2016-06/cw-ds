@@ -13,7 +13,8 @@ public class ReturnObjectImpl implements ReturnObject {
   	 * Returns whether there has been an error
   	 * @return whether there has been an error
   	 */
-  	public boolean hasError(); {
+    @Override
+  	public boolean hasError() {
       if (errorState != ErrorMessage.NO_ERROR) {
         returnValue = null;
         return true;
@@ -30,7 +31,8 @@ public class ReturnObjectImpl implements ReturnObject {
   	 *
   	 * @return the error message
   	 */
-  	public ErrorMessage getError(); {
+    @Override
+  	public ErrorMessage getError() {
       return errorState;
     }
 
@@ -46,26 +48,36 @@ public class ReturnObjectImpl implements ReturnObject {
   	 *
   	 * @return the return value from the method or null if there has been an error
   	 */
-  	public Object getReturnValue(); {
+    @Override
+  	public Object getReturnValue() {
       if (hasError()) {
         returnValue = null;
       }
       return returnValue;
     }
 
-    /** Constructor method for class
-     * Takes @param of an object class and an ErrorMessage enum and sets member fields
-     * of ReturnObjectImpl to hold those values. All other methods draw upon these to operate
+    /** 1/2 Constructor methods for class
+     * Takes @param of an object class and intializes ReturnObjectImpl's member field for successful operations.
+     * If operation is successful, it can be assumed the errorState is NO_ERROR
      */
-    public ReturnObjectImpl(Object value, ErrorMessage message) {
+    public ReturnObjectImpl(Object value) {
       returnValue = value;
+      errorState = ErrorMessage.NO_ERROR;
+    }
+
+    /** 2/2 Constructor methods for class
+     * takes @param of an ErrorMessage for failed classes.
+     * since operation is unsuccessful, it can be assumed that the object field is null.
+     */
+    public ReturnObjectImpl(ErrorMessage message) {
+      returnValue = null;
       errorState = message;
     }
 
     /* setter which changes the value of returnValue in this object
-     * 
+     *
      */
-    public void setReturnValue (Object newValue) {
+    public void setReturnValue(Object newValue) {
       returnValue = newValue;
     }
 

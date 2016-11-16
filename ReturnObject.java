@@ -34,4 +34,5 @@ public interface ReturnObject {
 	 * @return the return value from the method or null if there has been an error
 	 */
 	public Object getReturnValue();
+
 }

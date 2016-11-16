@@ -5,7 +5,7 @@
 * made static so no new object of this class for every test is needed
 */
 
-public static class ParameterVerifier {
+public final class ParameterVerifier {
 
 
   /**
@@ -13,24 +13,24 @@ public static class ParameterVerifier {
 	 * creates and initializes new returnObject accordingly
 	 * @return the appropriate ReturnObject to be used by other methods
 	 */
-	public ReturnObject verifyIndex(int indexSize, int indexPosition) {
-		ReturnObject returnObject;
+	public static ReturnObjectImpl verifyIndex(int indexSize, int indexPosition) {
+		ReturnObjectImpl myObject;
 		if (indexSize == 0) {
-			returnObject = new ReturnObject(indexPosition, ErrorMessage.EMPTY_STRUCTURE);
-		} else if (index < 0 || index >= indexSize) {
-			returnObject = new ReturnObject(indexPosition, ErrorMessage.INDEX_OUT_OF_BOUNDS);
+			myObject = new ReturnObjectImpl(ErrorMessage.EMPTY_STRUCTURE);
+		} else if (indexPosition < 0 || indexPosition >= indexSize) {
+			myObject = new ReturnObjectImpl(ErrorMessage.INDEX_OUT_OF_BOUNDS);
 		} else {
-			returnObject = new ReturnObject(indexPosition, ErrorMessage.NO_ERROR);
+			myObject = new ReturnObjectImpl(ErrorMessage.NO_ERROR);
 		}
-		return returnObject;
+		return myObject;
 	}
 
 	/**
 	 * takes @param index value and an Object. Checks if value of item is null, if so
-	 * will @return returnObject that has an INVALID_ARGUMENT
+	 * will @return ErrorMessage that has an INVALID_ARGUMENT
 	 * if not, it calls upon the simpler verifyIndex method to check validity of
 	 */
-	public ErrorMessage verifyObject(Object item) {
+	public static ErrorMessage verifyObject(Object item) {
 		ErrorMessage message;
 		if (item == null) {
 			message = ErrorMessage.INVALID_ARGUMENT;
