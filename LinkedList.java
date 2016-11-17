@@ -35,18 +35,18 @@ public class LinkedList implements List {
   	 * @return the element or an appropriate error message,
   	 *         encapsulated in a ReturnObject
   	 */
-  	public ReturnObject get(int index){
+  	public ReturnObject get(int index) {
       ReturnObjectImpl myObject = ParameterVerifier.verifyIndex(linkedListSize, index);
       ReturnObject result;
       if (!myObject.hasError()) {
         if (index == 0) {
-          myObject = new ReturnObjectImpl(head);
+          myObject = new ReturnObjectImpl(head.getValue());
         } else {
           LinkedListNode current = head;
           while (current.getNextNode().getIndex() != index) {
             current = current.getNextNode();
           }
-          myObject = new ReturnObjectImpl(current.getNextNode());
+          myObject = new ReturnObjectImpl(current.getNextNode().getValue());
         }
       }
       result = myObject;
@@ -69,18 +69,23 @@ public class LinkedList implements List {
       ReturnObjectImpl myObject = ParameterVerifier.verifyIndex(linkedListSize, index);
       if (!myObject.hasError()) {
         if (index == 0) {
-          head.decreaseIndexbyOneUntilEndofList(head.getNextNode());
+          myObject = new ReturnObjectImpl(head.getValue());
           head = head.getNextNode();
         } else {
           LinkedListNode current = head;
-          while (current.getNextNode().getIndex() != index ) {
-            current = current.getNextNode();
+          while (current.getNextNode().getIndex() != index ) { // finds the value of current.getNext() that equals
+            current = current.getNextNode();        // the desired index to remove
           }
-          current.setNextNode(current.getNextNode().getNextNode());
-          current.decreaseIndexbyOneUntilEndofList(current.getNextNode());
+          myObject = new ReturnObjectImpl(current.getNextNode().getValue());
+          if (current.getNextNode().getIndex() == (linkedListSize-1)) {
+            current.setNextNode(null);
+          } else {
+            current.setNextNode(current.getNextNode().getNextNode());
+          }
         }
         linkedListSize--;
       }
+      reWriteIndex();
       ReturnObject result = myObject;
       return result;
     }
@@ -112,8 +117,7 @@ public class LinkedList implements List {
           newNode = new LinkedListNode(item, index);
           if (newNode.getIndex() == 0) {
             newNode.setNextNode(head);
-            newNode.increaseIndexbyOneUntilEndofList(head);
-            newNode = head;
+            head = newNode;
           } else {
             LinkedListNode current = head;
             while ( current.getNextNode().getIndex() != index) {
@@ -121,11 +125,11 @@ public class LinkedList implements List {
             }
             newNode.setNextNode(current.getNextNode());
             current.setNextNode(newNode);
-            newNode.increaseIndexbyOneUntilEndofList(newNode.getNextNode());
           }
           linkedListSize++;
         }
       }
+      reWriteIndex();
       ReturnObject result = myObject;
       return result;
     }
@@ -145,12 +149,12 @@ public class LinkedList implements List {
       ReturnObject myObject = new ReturnObjectImpl(ParameterVerifier.verifyObject(item));
       LinkedListNode newNode;
       if (!myObject.hasError()) {
-        if (head.equals(null)) { // if head is null, this item becomes first node
+        if (linkedListSize == 0 ) { // if head is null, this item becomes first node
           head = new LinkedListNode(item, linkedListSize);
         } else {
           newNode = new LinkedListNode(item, linkedListSize);
           LinkedListNode current = head;
-          while (!current.getNextNode().equals(null)) { // this finds the last item in list
+          while (current.getNextNode() != null ) { // this finds the last item in list
             current = current.getNextNode();
           }
           current.setNextNode(newNode);
@@ -158,6 +162,17 @@ public class LinkedList implements List {
         linkedListSize++;
       }
       return myObject;
+    }
+
+    public void reWriteIndex() {
+      LinkedListNode current = head;
+      int whate;
+      for (int i = 0; i < linkedListSize; i++) {
+        current.setIndex(i);
+        if (current.getNextNode() != null) {
+          current = current.getNextNode();
+        }
+      }
     }
 
 
