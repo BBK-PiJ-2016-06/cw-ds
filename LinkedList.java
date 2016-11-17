@@ -35,7 +35,23 @@ public class LinkedList implements List {
   	 * @return the element or an appropriate error message,
   	 *         encapsulated in a ReturnObject
   	 */
-  	public ReturnObject get(int index);
+  	public ReturnObject get(int index){
+      ReturnObjectImpl myObject = ParameterVerifier.verifyIndex(linkedListSize, index);
+      ReturnObject result;
+      if (!myObject.hasError()) {
+        if (index == 0) {
+          myObject = new ReturnObjectImpl(head);
+        } else {
+          LinkedListNode current = head;
+          while (current.getNextNode().getIndex() != index) {
+            current = current.getNextNode();
+          }
+          myObject = new ReturnObjectImpl(current.getNextNode());
+        }
+      }
+      result = myObject;
+      return result;
+    }
 
   	/**
   	 * Returns the elements at the given position and removes it
@@ -49,7 +65,25 @@ public class LinkedList implements List {
   	 * @return the element or an appropriate error message,
   	 *         encapsulated in a ReturnObject
   	 */
-  	public ReturnObject remove(int index);
+  	public ReturnObject remove(int index) {
+      ReturnObjectImpl myObject = ParameterVerifier.verifyIndex(linkedListSize, index);
+      if (!myObject.hasError()) {
+        if (index == 0) {
+          head.decreaseIndexbyOneUntilEndofList(head.getNextNode());
+          head = head.getNextNode();
+        } else {
+          LinkedListNode current = head;
+          while (current.getNextNode().getIndex() != index ) {
+            current = current.getNextNode();
+          }
+          current.setNextNode(current.getNextNode().getNextNode());
+          current.decreaseIndexbyOneUntilEndofList(current.getNextNode());
+        }
+        linkedListSize--;
+      }
+      ReturnObject result = myObject;
+      return result;
+    }
 
   	/**
   	 * Adds an element to the list, inserting it at the given
@@ -76,13 +110,19 @@ public class LinkedList implements List {
         myObject = ParameterVerifier.verifyIndex(linkedListSize, index);
         if (!myObject.hasError()) {
           newNode = new LinkedListNode(item, index);
-          LinkedListNode current = head;
-          while (!current.getNextNode().getIndex().equals(index)) {
-            current = current.getNextNode();
+          if (newNode.getIndex() == 0) {
+            newNode.setNextNode(head);
+            newNode.increaseIndexbyOneUntilEndofList(head);
+            newNode = head;
+          } else {
+            LinkedListNode current = head;
+            while ( current.getNextNode().getIndex() != index) {
+              current = current.getNextNode();
+            }
+            newNode.setNextNode(current.getNextNode());
+            current.setNextNode(newNode);
+            newNode.increaseIndexbyOneUntilEndofList(newNode.getNextNode());
           }
-          newNode.setNextNode(current.getNextNode());
-          current.setNextNode(newNode);
-          newNode.increaseIndexbyOneUntilEndofList(newNode.getNextNode());
           linkedListSize++;
         }
       }

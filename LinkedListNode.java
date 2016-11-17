@@ -28,7 +28,7 @@ public class LinkedListNode {
   }
 
   public int getIndex() {
-    return int index;
+    return index;
   }
 
   public void increaseIndexbyOneUntilEndofList(LinkedListNode node) {
@@ -44,7 +44,6 @@ public class LinkedListNode {
       decreaseIndexbyOneUntilEndofList(nextNode);
     }
   }
-
 
 
   /*wraps this node of LinkedListNode

@@ -9,8 +9,8 @@ public final class ParameterVerifier {
 
 
   /**
-	 * takes @param index value and checks for any error value
-	 * creates and initializes new returnObject accordingly
+	 * takes @param size of data structure through indexSize and requested new structure value
+	 * value and the checks for any error value creates and initializes new returnObject accordingly
 	 * @return the appropriate ReturnObject to be used by other methods
 	 */
 	public static ReturnObjectImpl verifyIndex(int indexSize, int indexPosition) {
@@ -26,13 +26,13 @@ public final class ParameterVerifier {
 	}
 
 	/**
-	 * takes @param index value and an Object. Checks if value of item is null, if so
-	 * will @return ErrorMessage that has an INVALID_ARGUMENT
-	 * if not, it calls upon the simpler verifyIndex method to check validity of
+	 * takes @param of an object. Checks if value of item is null, if so
+	 * will @return ErrorMessage INVALID_ARGUMENT
+	 * if not, @return NO_ERROR
 	 */
 	public static ErrorMessage verifyObject(Object item) {
 		ErrorMessage message;
-		if (item == null) {
+		if (item.equals(null)) {
 			message = ErrorMessage.INVALID_ARGUMENT;
 		} else {
 			message = ErrorMessage.NO_ERROR;
