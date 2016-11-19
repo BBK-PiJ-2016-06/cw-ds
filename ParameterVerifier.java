@@ -33,7 +33,7 @@ public final class ParameterVerifier {
 	 */
 	public static ErrorMessage verifyObject(Object item) {
 		ErrorMessage message;
-		if (item.equals(null)) {
+		if (item == null) {
 			message = ErrorMessage.INVALID_ARGUMENT;
 		} else {
 			message = ErrorMessage.NO_ERROR;
