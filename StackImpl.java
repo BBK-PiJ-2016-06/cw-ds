@@ -49,7 +49,7 @@ public class StackImpl extends AbstractStack implements Stack {
     } else {
       internalList.add(0, item);
     }
-  } 
+  }
 
   /**
    * @see Stack#top
