@@ -84,25 +84,21 @@ public class LinkedList implements List {
       ReturnObjectImpl myObject = new ReturnObjectImpl(ParameterVerifier.verifyObject(item));
       if (!myObject.hasError()) {
         myObject = ParameterVerifier.verifyIndex(linkedListSize, index);
-        if(index == 0 && isEmpty()) { // if trying to add an item at index 0 to an empty list, calls on add(item);
-          add(item);
-        } else {
-            if (!myObject.hasError()) {
-              newNode = new LinkedListNode(item, index);
-              if (newNode.getIndex() == 0) {
-                newNode.setNextNode(head);
-                head = newNode;
-              } else {
-                LinkedListNode current = head;
-                while ( current.getNextNode().getIndex() != index) {
-                  current = current.getNextNode();
-                }
-                newNode.setNextNode(current.getNextNode());
-                current.setNextNode(newNode);
-              }
-              linkedListSize++;
+        if (!myObject.hasError()) {
+          newNode = new LinkedListNode(item, index);
+          if (newNode.getIndex() == 0) {
+            newNode.setNextNode(head);
+            head = newNode;
+          } else {
+            LinkedListNode current = head;
+            while ( current.getNextNode().getIndex() != index) {
+              current = current.getNextNode();
             }
+            newNode.setNextNode(current.getNextNode());
+            current.setNextNode(newNode);
           }
+          linkedListSize++;
+        }
       }
       reWriteIndex();
       ReturnObject result = myObject;
