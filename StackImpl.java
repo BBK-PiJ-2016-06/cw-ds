@@ -3,7 +3,7 @@
 * of the stack will be considered as index position 0.
 */
 
-public class StackImpl extends AbstractStack implements Stack {
+public class StackImpl extends AbstractStack {
 
   /**
    *constructor taking @param list type to build this version of the stack
