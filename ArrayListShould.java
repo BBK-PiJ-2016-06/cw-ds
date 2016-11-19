@@ -69,4 +69,12 @@ public class ArrayListShould {
     result = myArrayList2.get(0);
     assertEquals(67, result.getReturnValue());
   }
+
+  @Test
+  public void getIndex3wilbe22() {
+    ReturnObject result = myArrayList2.get(3);
+    assertEquals(22, result.getReturnValue());
+    result = myArrayList2.get(3);
+    assertEquals(22, result.getReturnValue());
+  }
 }

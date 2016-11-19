@@ -3,8 +3,8 @@ import static org.junit.Assert.*;
 
 public class LinkedListShould {
 
-  LinkedList emptyLinkedList;
-  LinkedList myLinkedList;
+  private LinkedList emptyLinkedList;
+  private LinkedList myLinkedList;
 
   @Before
   public void emptyLinkedListSetup() {

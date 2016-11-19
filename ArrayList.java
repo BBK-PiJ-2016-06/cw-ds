@@ -31,6 +31,7 @@ public class ArrayList implements List {
 	 *
 	 *@see List#get(int index);
 	 */
+	@Override
 	public ReturnObject get(int index) {
 		ReturnObjectImpl implObject = ParameterVerifier.verifyIndex(itemsInArray, index);
 		if (!implObject.hasError()) {
@@ -70,23 +71,28 @@ public class ArrayList implements List {
   @Override
 	public ReturnObject add(int index, Object item) {
 		ReturnObjectImpl myObject = new ReturnObjectImpl(ParameterVerifier.verifyObject(item));
-		if (!myObject.hasError()) {
-			myObject = ParameterVerifier.verifyIndex(itemsInArray, index);
-			if (!myObject.hasError()) {
-				Object[] replacementArray = new Object[itemsInArray + 1];
-				for (int i = 0; i < index; i++) {
-					replacementArray[i] = objectArray[i];
+		ReturnObject result;
+		if (index == 0 && itemsInArray == 0) {
+			result = add(item);
+		} else {
+				if (!myObject.hasError()) {
+					myObject = ParameterVerifier.verifyIndex(itemsInArray, index);
+					if (!myObject.hasError()) {
+						Object[] replacementArray = new Object[itemsInArray + 1];
+						for (int i = 0; i < index; i++) {
+							replacementArray[i] = objectArray[i];
+						}
+						replacementArray[index] = item;
+						for (int i = index; i < itemsInArray; i++) {
+							replacementArray[i + 1] = objectArray[i];
+						}
+						objectArray = replacementArray;
+						itemsInArray++;
+					}
 				}
-				replacementArray[index] = item;
-				for (int i = index; i < itemsInArray; i++) {
-					replacementArray[i + 1] = objectArray[i];
-				}
-				objectArray = replacementArray;
-				itemsInArray++;
+				result = myObject;
 			}
-		}
-		ReturnObject result = myObject;
-		return result;
+			return result;
 	}
 
 	/**

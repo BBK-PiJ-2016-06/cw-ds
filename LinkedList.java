@@ -4,8 +4,6 @@ public class LinkedList implements List {
   private int linkedListSize = 0;
 
   	/**
-  	 * Returns true if the list is empty, false otherwise.
-  	 *
   	 * @return true if the list is empty, false otherwise.
   	 */
   	public boolean isEmpty() {
@@ -18,8 +16,7 @@ public class LinkedList implements List {
 
   	/**
   	 * Returns the number of items currently in the list.
-  	 *
-  	 * @return the number of items currently in the list
+  	 * @return the number of items currently in the list.
   	 */
   	public int size() {
       return linkedListSize;
@@ -27,13 +24,7 @@ public class LinkedList implements List {
 
   	/**
   	 * Returns the element at the given position.
-  	 *
-  	 * If the index is negative or greater or equal than the size of
-  	 * the list, then an appropriate error must be returned.
-  	 *
-  	 * @param index the position in the list of the item to be retrieved
-  	 * @return the element or an appropriate error message,
-  	 *         encapsulated in a ReturnObject
+  	 * @see List#get
   	 */
   	public ReturnObject get(int index) {
       ReturnObjectImpl myObject = ParameterVerifier.verifyIndex(linkedListSize, index);
@@ -55,15 +46,8 @@ public class LinkedList implements List {
 
   	/**
   	 * Returns the elements at the given position and removes it
-  	 * from the list. The indeces of elements after the removed
-  	 * element must be updated accordignly.
-  	 *
-  	 * If the index is negative or greater or equal than the size of
-  	 * the list, then an appropriate error must be returned.
-  	 *
-  	 * @param index the position in the list of the item to be retrieved
-  	 * @return the element or an appropriate error message,
-  	 *         encapsulated in a ReturnObject
+  	 * from the list.
+     * @see List#remove(int index)
   	 */
   	public ReturnObject remove(int index) {
       ReturnObjectImpl myObject = ParameterVerifier.verifyIndex(linkedListSize, index);
@@ -92,42 +76,33 @@ public class LinkedList implements List {
 
   	/**
   	 * Adds an element to the list, inserting it at the given
-  	 * position. The indeces of elements at and after that position
-  	 * must be updated accordignly.
-  	 *
-  	 * If the index is negative or greater or equal than the size of
-  	 * the list, then an appropriate error must be returned.
-  	 *
-  	 * If a null object is provided to insert in the list, the
-  	 * request must be ignored and an appropriate error must be
-  	 * returned.
-  	 *
-  	 * @param index the position at which the item should be inserted in
-  	 *              the list
-  	 * @param item the value to insert into the list
-  	 * @return an ReturnObject, empty if the operation is successful
-  	 *         or containing an appropriate error message otherwise
+  	 * position.
+     * @see List#add(int index, Object item)
   	 */
   	public ReturnObject add(int index, Object item) {
       LinkedListNode newNode;
       ReturnObjectImpl myObject = new ReturnObjectImpl(ParameterVerifier.verifyObject(item));
       if (!myObject.hasError()) {
         myObject = ParameterVerifier.verifyIndex(linkedListSize, index);
-        if (!myObject.hasError()) {
-          newNode = new LinkedListNode(item, index);
-          if (newNode.getIndex() == 0) {
-            newNode.setNextNode(head);
-            head = newNode;
-          } else {
-            LinkedListNode current = head;
-            while ( current.getNextNode().getIndex() != index) {
-              current = current.getNextNode();
+        if(index == 0 && isEmpty()) { // if trying to add an item at index 0 to an empty list, calls on add(item);
+          add(item);
+        } else {
+            if (!myObject.hasError()) {
+              newNode = new LinkedListNode(item, index);
+              if (newNode.getIndex() == 0) {
+                newNode.setNextNode(head);
+                head = newNode;
+              } else {
+                LinkedListNode current = head;
+                while ( current.getNextNode().getIndex() != index) {
+                  current = current.getNextNode();
+                }
+                newNode.setNextNode(current.getNextNode());
+                current.setNextNode(newNode);
+              }
+              linkedListSize++;
             }
-            newNode.setNextNode(current.getNextNode());
-            current.setNextNode(newNode);
           }
-          linkedListSize++;
-        }
       }
       reWriteIndex();
       ReturnObject result = myObject;
@@ -136,14 +111,7 @@ public class LinkedList implements List {
 
   	/**
   	 * Adds an element at the end of the list.
-  	 *
-  	 * If a null object is provided to insert in the list, the
-  	 * request must be ignored and an appropriate error must be
-  	 * returned.
-  	 *
-  	 * @param item the value to insert into the list
-  	 * @return an ReturnObject, empty if the operation is successful
-  	 *         or containing an appropriate error message otherwise
+  	 * @see List#add(Object item)
   	 */
   	public ReturnObject add(Object item) {
       ReturnObject myObject = new ReturnObjectImpl(ParameterVerifier.verifyObject(item));
@@ -164,6 +132,10 @@ public class LinkedList implements List {
       return myObject;
     }
 
+    /**
+     * re-writes the index for all objects by starting at the first element and going to the end.
+     * called whenever an object is removed or added to the linked list
+     */
     public void reWriteIndex() {
       LinkedListNode current = head;
       int whate;
