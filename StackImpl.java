@@ -36,7 +36,7 @@ public class StackImpl extends AbstractStack implements Stack {
 
   /**
    * Adds an element at the top of the stack.
-   * if internalList is Empty, will need to use the add(item) method of the internalList
+   * if internalList is empty, will need to use the add(item) method of the internalList
    * otherwise adding at index position 0 will trigger an EMPTY_STRUCTURE error and push will
    * be unsuccessful
    * @see Stack#push
@@ -48,7 +48,8 @@ public class StackImpl extends AbstractStack implements Stack {
       internalList.add(item);
     } else {
       internalList.add(0, item);
-  }
+    }
+  } 
 
   /**
    * @see Stack#top
