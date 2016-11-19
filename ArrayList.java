@@ -87,8 +87,7 @@ public class ArrayList implements List {
 					itemsInArray++;
 				}
 			}
-			result = myObject;
-		}
+		result = myObject;
 		return result;
 	}
 
