@@ -7,7 +7,7 @@ public class ArrayListShould {
   private ArrayList myArrayList2;
 
   @Before
-  public void ArraySetUp() {
+  public void arraySetUp() {
     myArrayList = new ArrayList();
   }
 
@@ -29,7 +29,7 @@ public class ArrayListShould {
   }
 
   @Before
-  public void ArrayList2SetUp() {
+  public void arrayList2SetUp() {
     myArrayList2 = new ArrayList();
     myArrayList2.add(66);
     myArrayList2.add(67);
@@ -77,4 +77,13 @@ public class ArrayListShould {
     result = myArrayList2.get(3);
     assertEquals(22, result.getReturnValue());
   }
+
+  @Test
+  public void addingANullArgWillReturnInvalidArgument() {
+    ReturnObject result = myArrayList2.add(null);
+    ReturnObject expected = new ReturnObjectImpl(ErrorMessage.INVALID_ARGUMENT);
+    assertEquals(expected.getError(), result.getError());
+
+  }
+
 }
