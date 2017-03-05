@@ -1,4 +1,40 @@
-Please see the general comments, some of which are applicable to your submission.
 The output of the various checking tools should be paid attention to although checkstyle is a little "aggressive".
 
-...
+Going forward make appropriate use of packages.
+
+Good set of tests.
+
+Please see the general comments, some of which are applicable to your submission.
+
+StackImpl
+
+@Override
+  public boolean isEmpty() {
+    if (internalList.isEmpty()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+Don't return true/false unless absolutely necessary. In this case
+
+return internalList.isEmpty()
+
+should have been used. This also applies to some other methods.
+
+DRY - don't repeat javadoc from interfaces to implementation - make use of "@see" and
+"@inherit".
+
+SampleableList
+
+ation == 0 || indexLocation % 2
+
+use appropriate constants rather than "magic numbers".
+
+If you create classes/methods that are only used internally, e.g.,
+
+public final class ParameterVerifier {
+
+then make the classes/methods "private" or "package" access.
+Similarly for LinkedListNode
